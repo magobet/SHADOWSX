@@ -1,0 +1,1204 @@
+ <!-- SX MEDIA GROUP -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHADOWSX -  Pre lançamento</title>
+    <link rel="icon" type="image/png" href="img/logo3.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <!-- SX MEDIA GROUP -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-purple: #6a0dad;
+            --dark-purple: #4b0082;
+            --neon-purple: #9d4edd;
+            --light-purple: #c77dff;
+            --black: #000000;
+            --dark-bg: #0a0014;
+            --text-color: #ffffff;
+            --text-light: #e0e0e0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader-logo {
+            width: 500px;
+            height: 150px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loader-logo img {
+            width: 160px;
+            height: 100px;
+            
+        }
+
+        .loader-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(106, 13, 173, 0.3);
+            border-top: 5px solid var(--primary-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .audio-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--primary-purple);
+            border-radius: 10px;
+            padding: 15px 20px;
+            color: var(--text-color);
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .audio-notification.show {
+            transform: translateX(0);
+        }
+
+        .audio-notification p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .audio-notification .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(10,0,20,0.6) 100%);
+            z-index: -1;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(106, 13, 173, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 0.8rem 5%;
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-img {
+            height: 100px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            font-size: 1.05rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-purple);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-purple);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            position: relative;
+        }
+
+        .menu-toggle .fa-bars {
+            position: absolute;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-toggle .fa-times {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-toggle.active .fa-bars {
+            opacity: 0;
+        }
+
+        .menu-toggle.active .fa-times {
+            opacity: 1;
+        }
+
+        .menu-toggle:hover {
+            color: var(--primary-purple);
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 100px 5%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero {
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .text-line {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .text-white {
+            color: var(--text-color);
+        }
+
+        .text-purple {
+            color: var(--primary-purple);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .motivational-container {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .motivational-word {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-purple);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin: 2.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(106, 13, 173, 0.15);
+            border: 1px solid rgba(106, 13, 173, 0.5);
+            border-radius: 10px;
+            padding: 1.2rem 0.8rem;
+            min-width: 110px;
+            transition: all 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            background: rgba(106, 13, 173, 0.25);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-purple);
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1.1rem 2.8rem;
+            background: transparent;
+            color: var(--text-color);
+            border: 2px solid var(--primary-purple);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            margin-top: 1rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--primary-purple), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: var(--text-color);
+            background: var(--primary-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 13, 173, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-purple);
+            color: var(--text-color);
+            font-weight: 700;
+        }
+
+        .about {
+            background: rgba(10, 0, 20, 0.7);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--primary-purple);
+        }
+
+        .about-content {
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+            text-align: left;
+        }
+
+        .about-highlight {
+            color: var(--primary-purple);
+            font-weight: 600;
+        }
+
+        .benefits {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .benefit-card {
+            background: rgba(106, 13, 173, 0.1);
+            border: 1px solid rgba(106, 13, 173, 0.3);
+            border-radius: 12px;
+            padding: 2.5rem 1.5rem;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            background: rgba(106, 13, 173, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .benefit-icon {
+            font-size: 3.2rem;
+            color: var(--primary-purple);
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+        }
+
+        .benefit-description {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .cta {
+            background: rgba(10, 0, 20, 0.8);
+        }
+
+        .cta-content {
+            max-width: 700px;
+        }
+
+        .cta-text {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .email-form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1.1rem 1.5rem;
+            border: 2px solid var(--primary-purple);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(106, 13, 173, 0.3);
+        }
+
+        .email-input::placeholder {
+            color: var(--text-light);
+        }
+
+        .form-note {
+            margin-top: 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: #000;
+            padding: 3.5rem 5% 2.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(106, 13, 173, 0.3);
+        }
+
+        .company-info {
+            margin-bottom: 2.5rem;
+        }
+
+        .company-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .company-tagline {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-purple);
+            color: var(--text-color);
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-purple);
+            color: var(--text-color);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.4);
+        }
+
+        .footer-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(106, 13, 173, 0.2);
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            
+            .loader-logo {
+                width: 350px;
+                height: 130px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 280px;
+                height: calc(100vh - 70px);
+                background: rgba(0, 0, 0, 0.95);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 3rem;
+                transition: right 0.4s ease;
+                backdrop-filter: blur(15px);
+                border-left: 1px solid rgba(106, 13, 173, 0.3);
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem 0;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.3rem;
+            }
+            
+            .countdown {
+                gap: 0.8rem;
+            }
+            
+            .countdown-item {
+                min-width: 90px;
+                padding: 1rem 0.5rem;
+            }
+            
+            .countdown-number {
+                font-size: 2rem;
+            }
+            
+            .email-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .email-input {
+                min-width: 100%;
+                max-width: 350px;
+            }
+            
+            .loader-logo {
+                width: 300px;
+                height: 110px;
+            }
+            
+            .logo {
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.9rem;
+            }
+            
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .countdown-item {
+                min-width: 70px;
+                padding: 0.8rem 0.3rem;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.75rem;
+            }
+            
+            .motivational-word {
+                font-size: 1.5rem;
+            }
+            
+            .loader-logo {
+                width: 250px;
+                height: 90px;
+            }
+            
+            .logo {
+                height: 40px;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+      <!-- SX MEDIA GROUP -->
+</head>
+<body>
+    <div class="loader">
+        <img src="img/logo.png" class="logo-main" alt="Logo SHADOWSX">
+        <div class="loader-spinner"></div>
+        <div class="bottom-block">
+            <img src="img/sxmedia.png" class="logo-small" alt="SX MEDIA">
+            <div class="from-text">from SX MEDIA GROUP</div>
+        </div>
+    </div>
+  <!-- SX MEDIA GROUP -->
+    <style>
+        .loader * {
+            box-sizing: border-box;
+        }
+
+        .loader {
+            height: 100vh;
+            width: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            color: #fff;
+            isolation: isolate;
+        }
+
+        .loader .logo-main {
+            width: 140px;
+            margin-bottom: 10px;
+            user-select: none;
+        }
+
+        .loader .loader-spinner {
+            width: 55px;
+            height: 55px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: #7D2CFF;
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loader .bottom-block {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .loader .logo-small {
+            width: 80px;
+            opacity: 0.95;
+            user-select: none;
+        }
+
+        .loader .from-text {
+            margin-top: 8px;
+            font-size: 13px;
+            opacity: 0.8;
+            letter-spacing: 1px;
+            user-select: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+  <!-- SX MEDIA GROUP -->
+    <div class="audio-notification" id="audioNotification">
+        <button class="close-btn" id="closeNotification">&times;</button>
+        <p>Clique em qualquer lugar da tela para ativar o áudio do vídeo de fundo</p>
+    </div>
+
+    <div class="video-background">
+        <video id="backgroundVideo" muted loop playsinline autoplay>
+            <source src="img/fundo3.mp4" type="video/mp4">
+            Seu navegador não suporta o elemento de vídeo.
+        </video>
+    </div>
+    <div class="overlay"></div>
+
+    <header>
+        <a href="#" class="logo">
+            <img src="img/logo.png" alt="SHADOWSX" class="logo-img">
+        </a>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-times"></i>
+        </button>
+        <nav class="nav-links" id="navLinks">
+            <a href="#home">Início</a>
+            <a href="#about">Sobre</a>
+            <a href="#benefits">Benefícios</a>
+            <a href="#cta">Acesso Antecipado</a>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content fade-in">
+            <h1 class="hero-title">
+                <span class="text-line text-white">O silêncio domina.</span>
+                <span class="text-line text-white">A comunicação nas sombras</span>
+                <span class="text-line text-purple">está prestes a nascer.</span>
+            </h1>
+            
+            <p>A comunicação nas sombras está prestes a nascer. Uma nova era de privacidade digital começa em breve.</p>
+            
+            <div class="motivational-container">
+                <div class="motivational-word" id="motivational-word">Privacidade</div>
+            </div>
+            
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Dias</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Horas</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutos</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Segundos</div>
+                </div>
+            </div>
+            
+            <a href="#cta" class="btn btn-primary">Garantir Acesso Antecipado</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h2 class="section-title fade-in">SOBRE O PROJETO</h2>
+        <div class="about-content fade-in">
+            <p class="about-text">
+                <span class="about-highlight">SHADOWSX</span> é uma plataforma revolucionária de comunicação 100% anônima, 
+                projetada para aqueles que valorizam a privacidade acima de tudo. 
+                Em um mundo cada vez mais vigilante, oferecemos um santuário digital 
+                onde suas conversas permanecem verdadeiramente suas.
+            </p>
+            <p class="about-text">
+                Utilizando <span class="about-highlight">criptografia de última geração</span> e protocolos de segurança 
+                avançados, garantimos que cada mensagem, cada chamada, cada interação 
+                desapareça sem deixar rastros. Nas sombras, a comunicação é livre, 
+                segura e completamente anônima.
+            </p>
+            <p class="about-text">
+                Prepare-se para uma nova era de interação digital, onde o anonimato 
+                não é uma opção, mas uma garantia. O futuro da comunicação privada 
+                está chegando, e ele é mais seguro do que você pode imaginar.
+            </p>
+            <p class="about-text">
+                Desenvolvido pela <span class="about-highlight">SX MEDIA GROUP</span>, o SHADOWSX representa anos de pesquisa 
+                e desenvolvimento em tecnologias de segurança digital, criando uma 
+                solução que respeita sua privacidade acima de tudo.
+            </p>
+        </div>
+    </section>
+  <!-- SX MEDIA GROUP -->
+    <section id="benefits" class="benefits">
+        <h2 class="section-title fade-in">BENEFÍCIOS</h2>
+        <div class="benefits-grid">
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="benefit-title">Criptografia Avançada</h3>
+                <p class="benefit-description">
+                    Proteção de nível militar para todas as suas comunicações, 
+                    garantindo que apenas os destinatários possam acessar o conteúdo.
+                    Tecnologia de ponta que mantém suas mensagens seguras.
+                </p>
+            </div>
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <h3 class="benefit-title">Anonimato Total</h3>
+                <p class="benefit-description">
+                    Nenhum dado pessoal é coletado ou armazenado. Sua identidade 
+                    permanece protegida em todas as interações. Comunique-se sem 
+                    preocupações sobre rastreamento ou vigilância.
+                </p>
+            </div>
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="benefit-title">Velocidade Máxima</h3>
+                <p class="benefit-description">
+                    Tecnologia de ponta que oferece comunicação instantânea sem 
+                    comprometer a segurança ou a privacidade. Mensagens entregues 
+                    em milissegundos, independente da sua localização.
+                </p>
+            </div>
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-eraser"></i>
+                </div>
+                <h3 class="benefit-title">Sem Rastros</h3>
+                <p class="benefit-description">
+                    Mensagens autodestrutivas e sem registro em servidores. 
+                    Quando a conversa termina, ela desaparece para sempre. 
+                    Nenhum log é mantido em nossos sistemas.
+                </p>
+            </div>
+            <div class="benefit-card fade-in">
+                <div class="benefit-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="benefit-title">Comunicação Livre</h3>
+                <p class="benefit-description">
+                    Expresse-se sem medo de vigilância ou censura. Nas sombras, 
+                    suas palavras são verdadeiramente suas. Uma plataforma 
+                    livre de interferências externas.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="cta">
+        <h2 class="section-title fade-in">ACESSO ANTECIPADO</h2>
+        <div class="cta-content fade-in">
+            <p class="cta-text">
+                Seja um dos primeiros a experimentar o futuro da comunicação privada. 
+                Inscreva-se para receber acesso antecipado ao lançamento do SHADOWSX 
+                e garanta sua posição na vanguarda da privacidade digital.
+            </p>
+            <form class="email-form" action="https://formspree.io/f/mdkrnakp" method="POST" id="waitlistForm">
+                <input type="email" name="email" class="email-input" placeholder="Seu melhor e-mail" required>
+                <input type="hidden" name="_next" value="https://seu-site.com/obg.html">
+                <input type="hidden" name="_subject" value="Novo acesso antecipado - SHADOWSX">
+                <input type="text" name="_gotcha" style="display:none">
+                <button type="submit" class="btn btn-primary">Garantir Meu Acesso</button>
+            </form>
+            <p class="form-note">
+                Seu e-mail está seguro conosco. Não compartilhamos suas informações com terceiros.
+            </p>
+        </div>
+    </section>
+  <!-- SX MEDIA GROUP -->
+<footer>
+    <div class="company-info" style="text-align: center;">
+        <div class="company-logo">
+            <img src="img/sxmedia.png" alt="SX MEDIA GROUP" class="logo-img" style="max-width: 140px;">
+        </div>
+
+        <div class="company-from" style="margin-top: 8px; font-size: 14px; opacity: 0.8;">
+            from SX MEDIA GROUP
+        </div>
+
+        <div class="company-tagline">Inovação em Tecnologia e Comunicação</div>
+    </div>
+
+<div style="text-align: center; font-size: 15px; position: relative; top: -18px;">
+    <a href="politicas.web/privacy-policy.html" 
+       style="
+            text-decoration: none;
+            color: #ccc;
+            margin: 0 10px;
+            padding-bottom: 2px;
+            border-bottom: 2px solid #8000ff;
+            opacity: 0.9;
+            transition: 0.2s;
+       "
+    >Política de Privacidade</a>
+
+    <a href="politicas.web/cookies.html" 
+       style="
+            text-decoration: none;
+            color: #ccc;
+            margin: 0 10px;
+            padding-bottom: 2px;
+            border-bottom: 2px solid #8000ff;
+            opacity: 0.9;
+            transition: 0.2s;
+       "
+    >Cookies</a>
+</div>
+
+    <div class="social-links">
+        <a href="mailto:shadowsxsuporte@gmail.com" class="social-link" title="Email">
+            <i class="fas fa-envelope"></i>
+        </a>
+        <a href="https://www.instagram.com/_shadow.sx?igsh=N3F4ZW9xb3dqbm5m" class="social-link" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://x.com/shadowsx_7?t=kjG81YbkGNVDKlxijow7RA&s=09" class="social-link" title="X (Twitter)">
+            <svg width="16" height="16" viewBox="0 0 1200 1227" fill="currentColor">
+                <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z"/>
+            </svg>
+        </a>
+    </div>
+
+    <p class="footer-text">© 2025 SHADOWSX • Todos os direitos reservados • Desenvolvido pela SX MEDIA GROUP</p>
+</footer>
+  <!-- SX MEDIA GROUP -->
+<script>
+    window.addEventListener('load', function() {
+        const loader = document.querySelector('.loader');
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                
+                setTimeout(() => {
+                    const audioNotification = document.getElementById('audioNotification');
+                    audioNotification.classList.add('show');
+                }, 1000);
+            }, 500);
+        }, 1500);
+    });
+
+    document.getElementById('closeNotification').addEventListener('click', function() {
+        document.getElementById('audioNotification').classList.remove('show');
+    });
+
+    document.addEventListener('click', function() {
+        const video = document.getElementById('backgroundVideo');
+        if (video.muted) {
+            video.muted = false;
+            document.getElementById('audioNotification').classList.remove('show');
+        }
+    });
+
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuToggle.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('active');
+        });
+    });
+
+    const motivationalWords = ["Privacidade", "Segurança", "Liberdade", "Anonimato", "Confiança","Sem frescura", "Proteção"];
+    let wordIndex = 0;
+    const motivationalElement = document.getElementById('motivational-word');
+    
+    function rotateMotivationalWord() {
+        motivationalElement.style.opacity = '0';
+        
+        setTimeout(() => {
+            wordIndex = (wordIndex + 1) % motivationalWords.length;
+            motivationalElement.textContent = motivationalWords[wordIndex];
+            motivationalElement.style.opacity = '1';
+        }, 500);
+    }
+    
+    setInterval(rotateMotivationalWord, 3000);
+
+    function updateCountdown() {
+        const launchDate = new Date('November 29, 2025 15:00:00').getTime();
+        const now = new Date().getTime();
+        const timeLeft = launchDate - now;
+        
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    const fadeElements = document.querySelectorAll('.fade-in');
+    
+    function checkFade() {
+        fadeElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementTop < windowHeight - 100) {
+                element.classList.add('visible');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', checkFade);
+    window.addEventListener('load', checkFade);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const video = document.getElementById('backgroundVideo');
+        video.play().catch(function(error) {
+            console.log('Auto-play foi impedido: ', error);
+        });
+    });
+
+    const emailForm = document.getElementById('waitlistForm');
+
+    emailForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const emailInput = this.querySelector('.email-input');
+
+        if (!emailInput.value || !emailInput.value.includes('@')) {
+            alert('Por favor, insira um e-mail válido.');
+            emailInput.focus();
+            return;
+        }
+
+        const data = new FormData(emailForm);
+
+        const response = await fetch(emailForm.action, {
+            method: "POST",
+            body: data,
+            headers: { "Accept": "application/json" }
+        });
+
+        if (response.ok) {
+            window.location.href = "obg.html";
+        } else {
+            alert("Erro ao enviar o formulário. Tente novamente.");
+        }
+    });
+</script>
+</body>
+</html>
+ <!-- SX MEDIA GROUP -->
